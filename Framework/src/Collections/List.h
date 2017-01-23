@@ -1,0 +1,224 @@
+#ifndef _COLLECTIONS_LIST_H_
+#define _COLLECTIONS_LIST_H_
+
+#include <stdexcept>
+
+#include "../Threading/Thread.h"
+
+namespace Collections
+{
+  template <typename T>
+  class List : public Threading::Thread
+  {
+    private:
+      int sizeIncrement;
+      int size;
+      T* items;
+
+      void Grow()
+      {
+        this->sizeIncrement *= 2;
+        T* newArr = new T[this->sizeIncrement];
+
+        std::copy(this->items, this->items + this->size, newArr);
+
+        delete [] this->items;
+
+        this->items = newArr;
+      }
+
+      void Shrink()
+      {
+        if(this->size >= this->sizeIncrement)
+        {
+          return;
+        }
+
+        this->sizeIncrement /= 2;
+        T* newArr = new T[this->sizeIncrement];
+
+        std::copy(this->items, this->items + this->size, newArr);
+
+        delete [] this->items;
+
+        this->items = newArr;
+      }
+
+    public:
+      List()
+      {
+        this->sizeIncrement = 2;
+        this->size = 0;
+        this->items = new T[2];
+
+        this->Start();
+      }
+      virtual ~List()
+      {
+        delete [] this->items;
+      }
+
+      virtual void* Run() // inherited from Thread
+      {
+        int lastSize = 0;
+
+        while(this->IsRunning()) // administration backgroundworker
+        {
+          this->Lock();
+
+          while(this->size == lastSize)
+          {
+            this->Wait();
+          }
+
+          lastSize = this->size;
+
+          if(this->size == this->sizeIncrement)
+          {
+            this->Grow();
+          }
+          else if(this->size <= this->sizeIncrement / 2)
+          {
+            this->Shrink();
+          }
+
+          this->Unlock();
+          // Find a way to do background management like growing in here
+        }
+
+        return NULL;
+      }
+
+      T Get(int index)
+      {
+        this->Lock();
+
+        if(index < 0 || index >= this->size)
+        {
+          this->Unlock();
+
+          throw out_of_range(
+            "Index is out of bounds"
+          );
+        }
+
+        T item = this->items[index];
+
+        this->Unlock();
+
+        return item;
+      }
+
+      int Add(T item)
+      {
+        this->Lock();
+
+        this->items[this->size] = item;
+        this->size++;
+
+        this->Signal();
+        this->Unlock();
+
+        return this->size - 1;
+      }
+
+      bool Remove(int index, int count = 1)
+      {
+        this->Lock();
+
+        if(index < 0 || (index + count - 1) >= this->size)
+        {
+          this->Unlock();
+
+          return false;
+        }
+
+        this->size -= count;
+
+        for(int i = index; i < this->size; i++)
+        {
+          this->items[i] = this->items[i + count];
+        }
+
+        this->Signal();
+        this->Unlock();
+
+        return true;
+      }
+
+      T Shift(bool block = true)
+      {
+        this->Lock();
+
+        if(block)
+        {
+          while(this->size == 0)
+          {
+            this->Wait();
+          }
+        }
+        else if(!block && this->size == 0)
+        {
+          this->Unlock();
+
+          return NULL;
+        }
+
+        T item = this->items[0];
+
+        this->size--;
+
+        for(int i = 0; i < this->size; i++)
+        {
+          this->items[i] = this->items[i + 1];
+        }
+
+        this->Signal();
+        this->Unlock();
+
+        return item;
+      }
+
+      T Pop(bool block = true)
+      {
+        this->Lock();
+
+        if(block)
+        {
+          while(this->size == 0)
+          {
+            this->wait();
+          }
+        }
+        else if(!block && this->size == 0)
+        {
+          this->Unlock();
+
+          return NULL;
+        }
+
+        T item = this->items[this->size - 1];
+        delete this->items[this->size - 1];
+
+        this->size--;
+
+        this->Signal();
+        this->Unlock();
+
+        return item;
+      }
+
+      int Size()
+      {
+        this->Lock();
+
+        int size = this->size;
+
+        this->Unlock();
+
+        return size;
+      }
+  };
+}
+
+#endif
