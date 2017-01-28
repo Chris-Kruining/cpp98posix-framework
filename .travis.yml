@@ -30,4 +30,6 @@ before_install:
   - sudo apt-get update -qq
 
 script:
-  - cmake && make
+  - mkdir -p bin
+  - cmake && make shared_lib
+  # - cmake && make

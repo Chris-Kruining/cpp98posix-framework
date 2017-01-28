@@ -1,21 +1,17 @@
 CFLAGS     := -Wall -pedantic -ggdb -O0 -std=c++11 -W
+CXXFLAGS	 := -c -FPIC -shared
 # CFLAGS     := -Wall -Werror -pedantic -ggdb -O0 -std=c++98 -W
 LIBS       := -lrt -lpthread
 TEST_LIBS  := $(LIBS) -lgtest
 GCC        := g++
-TARGET     := Scanner
+TARGET     := Framework
 CPP_FILES  := $(wildcard $(TARGET)/src/*.cpp) $(wildcard  $(TARGET)/src/*/*.cpp) $(wildcard  $(TARGET)/src/*/*/*.cpp) $(wildcard  $(TARGET)/src/*/*/*/*.cpp) $(wildcard  $(TARGET)/src/*/*/*/*/*.cpp)
 OBJ_FILES  := $(CPP_FILES:$(TARGET)/src/%.cpp=$(TARGET)/obj/%.o)
 TEST_FILES := $(CPP_FILES:$(TARGET)/src/%.cpp=$(TARGET)/test/%.test.cpp)
-EXECUTABLE := $(TARGET)/bin/program
+EXECUTABLE := bin/lib$(TARGET).so
 
-$(TARGET): clean $(OBJ_FILES)
-	@echo "creating the executable"
-	@$(GCC) $(CFLAGS) $(OBJ_FILES) $(LIBS) -o $(EXECUTABLE)
-
-run: $(TARGET)
-	@echo "running the executable\n\n"
-	@$(EXECUTABLE)
+shared_lib: $(OBJ_FILES)
+	$(CXX) $(CXXLAGS) $(CPP_FILES) $(LIBS) -o $(EXECUTABLE)
 
 vardump:
 	@clear
@@ -37,34 +33,6 @@ help:
 	@echo "... valgrind_v\tBuilds the current project and runs it with valgrind in verbose mode"
 	@echo ""
 
-all:
-	$(MAKE) TARGET=Scanner
-	$(MAKE) TARGET=Server
-	$(MAKE) TARGET=Plotter
-
-test: clean $(TEST_FILES)
-	@mkdir -p $(TARGET)/bin
-	@$(GCC) $(CFLAGS) $(TEST_FILES) $(TEST_LIBS) -o $(EXECUTABLE)
-
-install: $(TARGET)
-	@scp $(EXECUTABLE) root@${VICTIM}:~
-
-.PHONY: clean
-
-clean:
-	@clear
-	@echo "clearing previous object files and executable"
-	@rm -f $(EXECUTABLE)
-	@rm -f $(OBJ_FILES)
-	@echo "create bin folder if needed"
-	@mkdir -p $(TARGET)/bin -m 775
-
-valgrind: $(TARGET)
-	@valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all $(EXECUTABLE)
-
-valgrind_v: $(TARGET)
-	@valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all -v $(EXECUTABLE)
-
-$(TARGET)/obj/%.o: $(TARGET)/src/%.cpp
-	@mkdir -p $(dir $@) -m 775
-	@$(GCC) -c $(CFLAGS) $< -o $@
+obj/%.o: src/%.cpp
+	mkdir -p $(dir $@) -m 775
+	$(GCC) -c $(CFLAGS) $< -o $@
