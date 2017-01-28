@@ -5,12 +5,11 @@ LIBS       := -lrt -lpthread
 TEST_LIBS  := $(LIBS) -lgtest
 GCC        := g++
 TARGET     := Framework
-CPP_FILES  := $(wildcard $(TARGET)/src/*.cpp) $(wildcard  $(TARGET)/src/*/*.cpp) $(wildcard  $(TARGET)/src/*/*/*.cpp) $(wildcard  $(TARGET)/src/*/*/*/*.cpp) $(wildcard  $(TARGET)/src/*/*/*/*/*.cpp)
-OBJ_FILES  := $(CPP_FILES:$(TARGET)/src/%.cpp=$(TARGET)/obj/%.o)
-TEST_FILES := $(CPP_FILES:$(TARGET)/src/%.cpp=$(TARGET)/test/%.test.cpp)
+CPP_FILES  := $(wildcard src/*.cpp) $(wildcard src/*/*.cpp) $(wildcard src/*/*/*.cpp) $(wildcard src/*/*/*/*.cpp) $(wildcard src/*/*/*/*/*.cpp)
+TEST_FILES := $(CPP_FILES:src/%.cpp=test/%.test.cpp)
 EXECUTABLE := bin/lib$(TARGET).so
 
-shared_lib: $(OBJ_FILES)
+shared_lib:
 	$(CXX) $(CXXLAGS) $(CPP_FILES) $(LIBS) -o $(EXECUTABLE)
 
 vardump:
@@ -32,7 +31,3 @@ help:
 	@echo "... valgrind\tBuilds the current project and runs it with valgrind"
 	@echo "... valgrind_v\tBuilds the current project and runs it with valgrind in verbose mode"
 	@echo ""
-
-obj/%.o: src/%.cpp
-	mkdir -p $(dir $@) -m 775
-	$(GCC) -c $(CFLAGS) $< -o $@
