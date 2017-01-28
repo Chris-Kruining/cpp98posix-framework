@@ -1,4 +1,6 @@
-bin
+bin/
 bin/*
-obj
+bin/**
+obj/
 obj/*
+obj/**
