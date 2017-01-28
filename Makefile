@@ -3,14 +3,13 @@ CXXFLAGS	 := -c -FPIC -shared
 # CFLAGS     := -Wall -Werror -pedantic -ggdb -O0 -std=c++98 -W
 LIBS       := -lrt -lpthread
 TEST_LIBS  := $(LIBS) -lgtest
-GCC        := g++
 TARGET     := Framework
 CPP_FILES  := $(wildcard src/*.cpp) $(wildcard src/*/*.cpp) $(wildcard src/*/*/*.cpp) $(wildcard src/*/*/*/*.cpp) $(wildcard src/*/*/*/*/*.cpp)
 TEST_FILES := $(CPP_FILES:src/%.cpp=test/%.test.cpp)
 EXECUTABLE := bin/lib$(TARGET).so
 
 shared_lib:
-	$(CXX) $(CXXLAGS) $(CPP_FILES) $(LIBS) -o $(EXECUTABLE)
+	$(CXX) $(CXXFLAGS) $(LIBS) $(CPP_FILES) -o $(EXECUTABLE)
 
 vardump:
 	@clear
