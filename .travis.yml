@@ -27,8 +27,10 @@ branches:
 
 before_install:
   - sudo apt-get update -qq
+  - sudo apt-get install -y libboost-test-dev
 
 script:
   - mkdir -p bin
-  - make shared_lib
-  # - cmake && make
+  - cd bin
+  - cmake ..
+  - make
