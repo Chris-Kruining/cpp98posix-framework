@@ -30,4 +30,4 @@ before_install:
   - sudo apt-get update -qq
 
 script:
-  - mkdir -p bin
+  - cmake && make
