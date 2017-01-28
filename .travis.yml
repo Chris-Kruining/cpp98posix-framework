@@ -31,5 +31,5 @@ before_install:
 
 script:
   - mkdir -p bin
-  - cmake && make shared_lib
+  - make shared_lib
   # - cmake && make
