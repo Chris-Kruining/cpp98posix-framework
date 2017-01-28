@@ -121,7 +121,9 @@ namespace Collections
       {
         this->Lock();
 
-        KeyValuePair<KeyT, ValueT> pair{ key, value};
+        KeyValuePair<KeyT, ValueT> pair;
+        pair.Key = key;
+        pair.Value = value;
 
         this->items[this->size] = pair;
         this->size++;
