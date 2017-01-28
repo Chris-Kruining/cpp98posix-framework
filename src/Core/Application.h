@@ -1,6 +1,8 @@
 #ifndef _CORE_APPLICATION_H_
 #define _CORE_APPLICATION_H_
 
+#include <cstdlib>
+#include <cstdio>
 #include <signal.h>
 #include <unistd.h>
 #include <string>
