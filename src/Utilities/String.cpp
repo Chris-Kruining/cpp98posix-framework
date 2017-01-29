@@ -1,7 +1,5 @@
 #include "String.h"
 
-#include <iostream>
-
 namespace Utilities
 {
   namespace String
@@ -47,14 +45,13 @@ namespace Utilities
       std::string str;
 
       // converting base 10
-      while (i / 10 > 10)
+      while (i > 0)
       {
-        std::cout << (char) ((i % 10) + 48) << '\n';
-        str += (char) ((i % 10) + 48);
+        str = (char) ((i % 10) + 48) + str;
         i /= 10;
       }
 
-      return std::string(str);
+      return str;
     }
   }
 }
