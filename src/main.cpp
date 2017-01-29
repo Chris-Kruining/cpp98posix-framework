@@ -1,10 +1,25 @@
-#include <iostream>
+#include <unistd.h>
 
-#include "Utilities/String.h"
+#include "Core/Application.h"
+#include "UI/Console.h"
 
-int main()
+void Run(Core::Application* app)
 {
-  std::cout << Utilities::String::FromInt(123456) << '\n';
+  while(true)
+  {
+    if(UI::Console::Read() == "quit")
+    {
+      UI::Console::WriteLine("Time to exit");
+      return;
+    }
 
-  return 0;
+    UI::Console::WriteLine("I'm up for another round");
+  }
+}
+
+int main(int argc, char* argv[])
+{
+  Core::Application app(argc, argv);
+
+  return app.Run(Run);
 }
