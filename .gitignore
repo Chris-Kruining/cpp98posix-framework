@@ -3,4 +3,4 @@ bin/**
 obj
 obj/**
 build
-build/**
+build/** !build/libchrispp.so
