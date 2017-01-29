@@ -18,29 +18,6 @@ endif()
 
 # Add source files
 set(src
-  src/Collections/Dictionary.h
-  src/Collections/List.h
-  src/Communication/ISocket.h
-  src/Communication/Request.h
-  src/Communication/TcpEventArgs.h
-  src/Communication/TcpSocket.h
-  src/Core/Application.h
-  src/Event/EventArgs.h
-  src/Event/EventHandler.h
-  src/Event/IEventArgs.h
-  src/Event/IObservable.h
-  src/Event/IObserver.h
-  src/Event/Observable.h
-  src/Event/Observer.h
-  src/Logging/ILogger.h
-  src/Logging/LogEventArgs.h
-  src/Logging/TcpLogger.h
-  src/Threading/IThread.h
-  src/Threading/Thread.h
-  src/Threading/ThreadData.h
-  src/Threading/ThreadManager.h
-  src/UI/Console.h
-  src/Utilities/String.h
   src/Communication/Request.cpp
   src/Communication/TcpEventArgs.cpp
   src/Communication/TcpSocket.cpp
@@ -49,6 +26,8 @@ set(src
   src/Event/Observer.cpp
   src/Logging/LogEventArgs.cpp
   src/Logging/TcpLogger.cpp
+  src/Threading/Cond.cpp
+  src/Threading/Mutex.cpp
   src/Threading/Thread.cpp
   src/Threading/ThreadManager.cpp
   src/UI/Console.cpp
