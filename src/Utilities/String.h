@@ -1,7 +1,7 @@
 #ifndef _UTILITIES_STRING_H_
 #define _UTILITIES_STRING_H_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sstream>
 #include <string>
 #include <vector>

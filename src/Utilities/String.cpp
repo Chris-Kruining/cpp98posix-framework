@@ -42,7 +42,16 @@ namespace Utilities
 
     std::string FromInt(int i)
     {
-      return std::string(itoa(i));
+      std::string str;
+
+      // converting base 10
+      while (i / 10 > 10)
+      {
+        str += (char) ((i % 10) + 48);
+        i /= 10;
+      }
+
+      return std::string(str);
     }
   }
 }
