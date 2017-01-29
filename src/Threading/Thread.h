@@ -4,6 +4,8 @@
 #include <pthread.h>
 
 #include "IThread.h"
+#include "Mutex.h"
+#include "Cond.h"
 
 namespace Threading
 {
@@ -31,8 +33,8 @@ namespace Threading
 
     private:
       pthread_t id;
-      pthread_mutex_t mutex;
-      pthread_cond_t condition;
+      Mutex mutex;
+      Cond condition;
       bool running;
       bool detached;
   };
