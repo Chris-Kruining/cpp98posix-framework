@@ -29,10 +29,10 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y libgtest-dev
   - cd /usr/src/gtest
-  - cmake CMakeFile.txt
-  - make
-  - cp *.a /usr/lib
-  - ldconfig
+  - sudo cmake CMakeFile.txt
+  - sudo make
+  - sudo cp *.a /usr/lib
+  - sudo ldconfig
   - cd /home/travis/build/Chris-Kruining/cpp98posix-framework
 
 script:
