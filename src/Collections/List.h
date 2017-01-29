@@ -97,7 +97,7 @@ namespace Collections
         {
           this->Unlock();
 
-          throw out_of_range(
+          throw std::out_of_range(
             "Index is out of bounds"
           );
         }
