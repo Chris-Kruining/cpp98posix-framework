@@ -2,10 +2,11 @@ cmake_minimum_required(VERSION 2.8)
 project(myProject)
 
 # Add source code and setup folder structure.
-set(src src/Core/Application.cpp)
+file(GLOB src
+  src/*.cpp
+  src/*.h
+)
 set(test test/Core/Application.test.cpp)
-set(include src/Core/Application.h)
-include_directories(include)
 
 # Add Boost unit test library.
 set(Boost_USE_STATIC_LIBS on)
@@ -20,7 +21,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 # Create executable that links the source code, unit test, header file, and Boost.
-add_executable(exe ${src} ${test} ${include})
+add_executable(exe ${src} ${test})
 target_link_libraries(exe ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
 # Add support for unit tests e.g. ctest.
