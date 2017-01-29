@@ -1,6 +1,7 @@
 #ifndef _UTILITIES_STRING_H_
 #define _UTILITIES_STRING_H_
 
+#include <stdlib.h>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -14,6 +15,7 @@ namespace Utilities
     std::vector<string> Split(string input, char token);
     bool Contains(vector<string> arr, string item);
     unsigned int ToInt(const char* str, int h = 0);
+    std::string FromInt(int i);
   }
 }
 

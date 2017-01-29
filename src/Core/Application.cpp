@@ -37,7 +37,7 @@ namespace Core
 
   void Application::Kill(int signalNumber)
   {
-    UI::Console::WriteLine("Program killed with signal " + std::to_string(signalNumber));
+    UI::Console::WriteLine("Program killed with signal " + Utilities::String::FromInt(signalNumber));
     Threading::ThreadManager::KillAll();
 
     exit(0);
@@ -45,7 +45,7 @@ namespace Core
 
   void Application::ParseParams(int argc, char* argv[])
   {
-    UI::Console::WriteLine("Number of args :: " + std::to_string(argc -1));
+    UI::Console::WriteLine("Number of args :: " + Utilities::String::FromInt(argc -1));
 
     if(argc % 2 == 0)
     {

@@ -29,7 +29,7 @@ namespace Utilities
           return true;
         }
       }
-      
+
       return false;
     }
 
@@ -38,6 +38,11 @@ namespace Utilities
         return !str[h]
           ? 5381
           : (ToInt(str, h+1) * 33) ^ str[h];
+    }
+
+    std::string FromInt(int i)
+    {
+      return std::string(itoa(i));
     }
   }
 }
