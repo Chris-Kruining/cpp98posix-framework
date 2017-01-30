@@ -38,7 +38,7 @@ add_library(${project_name_shared_lib} SHARED src/Core/Application.cpp)
 add_library(${project_name_lib} src/Core/Application.cpp)
 add_executable(${project_name} src/main.cpp ${src})
 
-target_link_libraries(${project_name} pthread)
+target_link_libraries(${project_name} ${project_name_lib} pthread)
 
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
