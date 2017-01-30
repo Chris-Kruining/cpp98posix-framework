@@ -1,12 +1,24 @@
 #include <unistd.h>
+#include <string>
 
 #include "Core/Application.h"
 #include "UI/Console.h"
+#include "Collections/List.h"
 
 void Run(Core::Application* app)
 {
+  Collections::List<std::string> list;
+  list.Add("Kaas");
+  list.Add("is");
+  list.Add("lekker");
+  list.Add("!!!");
+
   while(true)
   {
+    list.Each([](std::string item){
+      UI::Console::WriteLine(item);
+    });
+
     if(UI::Console::Read() == "quit")
     {
       UI::Console::WriteLine("Time to exit");

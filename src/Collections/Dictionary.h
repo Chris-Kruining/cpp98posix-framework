@@ -214,6 +214,20 @@ namespace Collections
 
         return size;
       }
+
+      Dictionary<KeyT, ValueT> Each(void (&m)(KeyT, ValueT))
+      {
+        this->Lock();
+
+        for(int i = 0; i < this->size; i++)
+        {
+          m(this->items[i]->Key, this->items[i]->Value);
+        }
+
+        this->Unlock();
+
+        return this;
+      }
   };
 }
 

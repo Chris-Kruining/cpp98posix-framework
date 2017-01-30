@@ -13,6 +13,7 @@ namespace Collections
     private:
       int sizeIncrement;
       int size;
+      int position;
       T* items;
 
       void Grow()
@@ -49,6 +50,7 @@ namespace Collections
       {
         this->sizeIncrement = 2;
         this->size = 0;
+        this->position = 0;
         this->items = new T[2];
 
         this->Start();
@@ -217,6 +219,20 @@ namespace Collections
         this->Unlock();
 
         return size;
+      }
+
+      List<T>* Each(void (*m)(T))
+      {
+        this->Lock();
+
+        for(int i = 0; i < this->size; i++)
+        {
+          m(this->items[i]);
+        }
+
+        this->Unlock();
+
+        return this;
       }
   };
 }
