@@ -11,9 +11,9 @@ set(CMAKE_BUILD_TYPE Test)
 project(${project_name})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    add_definitions(-std=c++98 -stdlib=libc++ -O3 -Wall)
+    add_definitions(-std=c++11 -stdlib=libc++ -O3 -Wall)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    add_definitions(-std=c++98 -O3 -Wall)
+    add_definitions(-std=c++11 -O3 -Wall)
 endif()
 
 # Add source files
