@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 
 option(test "Build all tests." OFF)
 
-set(project_name CppFramework)
-set(project_name_test ${project_name}Test)
-set(project_name_lib ${project_name}Lib)
-set(project_name_shared_lib ${project_name}SharedLib)
+set(project_name cpp98posix)
+set(project_name_test ${project_name}_test)
+set(project_name_lib ${project_name}_lib)
+set(project_name_shared_lib ${project_name}_slib)
 set(CMAKE_BUILD_TYPE Test)
 
 project(${project_name})
