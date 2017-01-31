@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-#include "../Threading/Thread.h"
+#include "Threading/Thread.h"
 
 namespace Collections
 {

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../Event/EventArgs.h"
+#include "Event/EventArgs.h"
 
 namespace Communication
 {

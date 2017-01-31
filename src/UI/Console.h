@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string>
 
-#include "../Threading/Queue.h"
-#include "../Threading/Thread.h"
+#include "Threading/Queue.h"
+#include "Threading/Thread.h"
 
 namespace UI
 {
