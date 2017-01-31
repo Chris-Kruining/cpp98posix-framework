@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 2.8)
 
 set(project_name cpp98posix)
 set(project_name_test ${project_name}_test)
