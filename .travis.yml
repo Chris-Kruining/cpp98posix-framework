@@ -19,7 +19,7 @@ os:
 
 before_install:
   - pip install --user cpp-coveralls
-  - apt-get update -qq
+  - sudo apt-get update -qq
 
 script:
   - mkdir build
