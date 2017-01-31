@@ -4,10 +4,10 @@
 #include <signal.h>
 #include <string>
 
-#include "../Utilities/String.h"
-#include "../Collections/Dictionary.h"
-#include "../UI/Console.h"
-#include "../Threading/ThreadManager.h"
+#include "Utilities/String.h"
+#include "Collections/Dictionary.h"
+#include "UI/Console.h"
+#include "Threading/ThreadManager.h"
 
 namespace Core
 {
