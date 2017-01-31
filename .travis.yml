@@ -1,54 +1,25 @@
-sudo: required
-dist: trusty
-language: cpp
+sudo: false
+
+language:
+  - cpp
 
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.6
-    packages:
-      - gcc-5
-      - g++-5
-      - clang-3.6
-
-compiler:
-  - clang
-  - gcc
-
-os:
-  - linux
-
-branches:
-  only:
-    - master
-    - "/^v\\d+\\./"
-
-notifications:
-  email: false
 
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y libgtest-dev
-  - cd /usr/src/gtest
-  - sudo cmake -D CXX="g++" CMakeLists.txt
-  - sudo make
-  - sudo cp *.a /usr/lib
-  - sudo ldconfig
-  - cd /home/travis/build/Chris-Kruining/cpp98posix-framework
-
-install:
-  # g++4.8.1
-  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-5; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
-
-  # clang 3.4
-  - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.6; fi
-  - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.6"; fi
+  - pip install --user cpp-coveralls
 
 script:
   - mkdir build
   - cd build
-  - sudo cmake ..
+  - cmake ..
   - make
-  - ctest -V
+  - ./unit_tests
+
+after_success:
+  - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
+
+notifications:
+  email: false
