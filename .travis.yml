@@ -49,6 +49,6 @@ install:
 script:
   - mkdir build
   - cd build
-  - cmake ..
+  - sudo -i cmake ..
   - make
   - ctest -V
