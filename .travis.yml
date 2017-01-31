@@ -27,19 +27,19 @@ matrix:
         - sudo ldconfig
         - cd /home/travis/build/Chris-Kruining/cpp98posix-framework
 
-      - os: linux
-        sudo: required
-        env: CC=gcc-5 CXX=clang++-5
-        install:
-          - sudo apt-get update -qq
-          - sudo apt-get install -qq g++-5
-          - sudo apt-get install -y libgtest-dev
-          - cd /usr/src/gtest
-          - sudo cmake CMakeLists.txt
-          - sudo make
-          - sudo cp *.a /usr/lib
-          - sudo ldconfig
-          - cd /home/travis/build/Chris-Kruining/cpp98posix-framework
+    - os: linux
+      sudo: required
+      env: CC=gcc-5 CXX=clang++-5
+      install:
+        - sudo apt-get update -qq
+        - sudo apt-get install -qq g++-5
+        - sudo apt-get install -y libgtest-dev
+        - cd /usr/src/gtest
+        - sudo cmake CMakeLists.txt
+        - sudo make
+        - sudo cp *.a /usr/lib
+        - sudo ldconfig
+        - cd /home/travis/build/Chris-Kruining/cpp98posix-framework
 
 branches:
   only:
