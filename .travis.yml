@@ -7,6 +7,18 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+    packages:
+      - gcc-5
+      - g++-5
+      - clang-3.6
+
+compiler:
+  - clang
+  - gcc
+
+os:
+  - linux
+  - osx
 
 before_install:
   - pip install --user cpp-coveralls
@@ -16,7 +28,7 @@ script:
   - cd build
   - cmake ..
   - make
-  - ./unit_tests
+  - ctest
 
 after_success:
   - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
