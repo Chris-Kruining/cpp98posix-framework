@@ -2,44 +2,23 @@ sudo: required
 dist: trusty
 language: cpp
 
-matrix:
-  include:
-    - os: linux
-      sudo: required
-      env: CC=gcc-5 CXX=g++-5
-      addons: &gcc5
-        apt:
-          packages:
-            - libstdc++-5-dev
-            - gcc-5
-            - g++-5
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-      install:
-        - sudo apt-get update -qq
-        - sudo apt-get install -qq g++-5
-        - sudo apt-get install -y libgtest-dev
-        - cd /usr/src/gtest
-        - sudo cmake CMakeLists.txt
-        - sudo make
-        - sudo cp *.a /usr/lib
-        - sudo ldconfig
-        - cd /home/travis/build/Chris-Kruining/cpp98posix-framework
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.6
+    packages:
+      - gcc-5
+      - g++-5
+      - clang-3.6
 
-    - os: linux
-      sudo: required
-      env: CC=gcc-5 CXX=clang++-5
-      install:
-        - sudo apt-get update -qq
-        - sudo apt-get install -qq g++-5
-        - sudo apt-get install -y libgtest-dev
-        - cd /usr/src/gtest
-        - sudo cmake CMakeLists.txt
-        - sudo make
-        - sudo cp *.a /usr/lib
-        - sudo ldconfig
-        - cd /home/travis/build/Chris-Kruining/cpp98posix-framework
+compiler:
+  - clang
+  - gcc
+  - g++
+
+os:
+  - linux
 
 branches:
   only:
@@ -49,9 +28,20 @@ branches:
 notifications:
   email: false
 
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq g++-5
+  - sudo apt-get install -y libgtest-dev
+  - cd /usr/src/gtest
+  - sudo cmake CMakeLists.txt
+  - sudo make
+  - sudo cp *.a /usr/lib
+  - sudo ldconfig
+  - cd /home/travis/build/Chris-Kruining/cpp98posix-framework
+
 script:
   - mkdir build
   - cd build
   - cmake ..
   - make
-  - ctest
+  - ctest -V
