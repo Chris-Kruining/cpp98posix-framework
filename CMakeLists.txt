@@ -40,12 +40,11 @@ add_executable(${project_name} src/main.cpp ${src})
 
 target_link_libraries(${project_name} ${project_name_lib} pthread)
 
-add_library(Catch INTERFACE)
 include_directories(lib/catch)
 
 enable_testing()
 
 add_executable(${project_name_test} test/main.cpp)
-target_link_libraries(${project_name_test} ${project_name_lib} Catch pthread)
+target_link_libraries(${project_name_test} ${project_name_lib} pthread)
 
 add_test(Utilities::String ${project_name_test})
