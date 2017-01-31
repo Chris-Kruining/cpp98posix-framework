@@ -1,8 +1,7 @@
+#include "catch.hpp"
 #include "../../src/Utilities/String.cpp"
 
-#include <iostream>
-
-TEST(Utilities_String_Split, Basic)
+TEST_CASE("Basic", "[Utilities_String_Split]")
 {
   std::vector<std::string> v;
   v.push_back("a");
@@ -10,10 +9,10 @@ TEST(Utilities_String_Split, Basic)
   v.push_back("string");
   v.push_back("vector");
 
-  EXPECT_EQ(v, Utilities::String::Split("a-beautiful-string-vector", '-'));
+  REQUIRE(v == Utilities::String::Split("a-beautiful-string-vector", '-'));
 }
 
-TEST(Utilities_String_Contains, Basic)
+TEST_CASE("Basic", "[Utilities_String_Contains]")
 {
   std::vector<std::string> v;
   v.push_back("a");
@@ -21,23 +20,21 @@ TEST(Utilities_String_Contains, Basic)
   v.push_back("string");
   v.push_back("vector");
 
-  EXPECT_TRUE(Utilities::String::Contains(v, "string"));
-  EXPECT_FALSE(Utilities::String::Contains(v, "false"));
+  REQUIRE(Utilities::String::Contains(v, "string"));
+  REQUIRE(!Utilities::String::Contains(v, "false"));
 }
 
-TEST(Utilities_String_ToInt, CleanString)
+TEST_CASE("CleanString", "[Utilities_String_ToInt]")
 {
-  std::cout << Utilities::String::ToInt("123456") << '\n';
-
-  EXPECT_EQ(123456, Utilities::String::ToInt("123456"));
+  REQUIRE(123456 == Utilities::String::ToInt("123456"));
 }
 
-TEST(Utilities_String_ToInt, PrefixedAndSuffixedString)
+TEST_CASE("PrefixedAndSuffixedString", "[Utilities_String_ToInt]")
 {
-  EXPECT_EQ(123456, Utilities::String::ToInt("prefix_123456_suffix"));
+  REQUIRE(123456 == Utilities::String::ToInt("prefix_123456_suffix"));
 }
 
-TEST(Utilities_String_FromInt, Basic)
+TEST_CASE("Basic", "[Utilities_String_FromInt]")
 {
-  EXPECT_EQ("123456", Utilities::String::FromInt(123456));
+  REQUIRE("123456" == Utilities::String::FromInt(123456));
 }
