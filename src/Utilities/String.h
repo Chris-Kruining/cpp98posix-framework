@@ -1,20 +1,17 @@
 #ifndef _UTILITIES_STRING_H_
 #define _UTILITIES_STRING_H_
 
-#include <cstdlib>
 #include <sstream>
 #include <string>
 #include <vector>
-
-using namespace std;
 
 namespace Utilities
 {
   namespace String
   {
-    std::vector<string> Split(string input, char token);
-    bool Contains(vector<string> arr, string item);
-    unsigned int ToInt(const char* str, int h = 0);
+    std::vector<std::string> Split(std::string input, char token);
+    bool Contains(std::vector<std::string> arr, std::string item);
+    int ToInt(std::string str);
     std::string FromInt(int i);
   }
 }

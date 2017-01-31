@@ -1,26 +1,34 @@
 #include "String.h"
 
+#include <iostream>
+
 namespace Utilities
 {
   namespace String
   {
-    std::vector<string> Split(string input, char token)
+    std::vector<std::string> Split(std::string str, char token)
     {
-      stringstream stream;
-      string segment;
-      vector<std::string> seglist;
+      std::vector<std::string> list;
+      list.push_back("");
+      int index = 0;
 
-      stream << input;
-
-      while(getline(stream, segment, token))
+      for(unsigned int i = 0; i < str.length(); i++)
       {
-         seglist.push_back(segment);
+        if(str[i] == token)
+        {
+          list.push_back("");
+          index++;
+        }
+        else
+        {
+          list[index] += str[i];
+        }
       }
 
-      return seglist;
+      return list;
     }
 
-    bool Contains(vector<string> arr, string item)
+    bool Contains(std::vector<std::string> arr, std::string item)
     {
       for(unsigned int i = 0; i < arr.size(); i++)
       {
@@ -33,11 +41,27 @@ namespace Utilities
       return false;
     }
 
-    unsigned int ToInt(const string str, int h)
+    int ToInt(std::string str)
     {
-        return !str[h]
-          ? 5381
-          : (ToInt(str, h+1) * 33) ^ str[h];
+      int out = 0;
+      bool found = false;
+
+      for(unsigned int i = 0; i < str.length(); i++)
+      {
+        if(str[i] >= 48 && str[i] <= 57)
+        {
+          out = (out * 10) + (((int)str[i]) - 48);
+          found = true;
+          continue;
+        }
+
+        if(found)
+        {
+          break;
+        }
+      }
+
+      return out;
     }
 
     std::string FromInt(int i)
