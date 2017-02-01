@@ -3,11 +3,11 @@
 #ifndef _THREADING_QUEUE_H_
 #define _THREADING_QUEUE_H_
 
-#include <vector>
 #include <pthread.h>
 
 #include "Mutex.h"
 #include "Cond.h"
+#include "Collections/List.h"
 
 namespace Threading
 {
@@ -15,7 +15,7 @@ namespace Threading
   class Queue
   {
     protected:
-      std::vector<T> items;
+      Collections::List<T> items;
       Mutex mutex;
       Cond condition;
       static const int maxSize = 2000;
@@ -33,13 +33,12 @@ namespace Threading
       {
         this->mutex.Lock();
 
-        while(this->items.size() == 0)
+        while(this->items.Size() == 0)
         {
           this->condition.Wait(this->mutex);
         }
 
-        T item = this->items.front();
-        this->items.erase(this->items.begin());
+        T item = this->items.Shift();
 
         this->mutex.Unlock();
 
@@ -50,12 +49,12 @@ namespace Threading
       {
         this->mutex.Lock();
 
-        while(this->items.size() >= this->maxSize)
+        while(this->items.Size() >= this->maxSize)
         {
           this->condition.Wait(this->mutex);
         }
 
-        this->items.push_back(item);
+        this->items.Add(item);
 
         this->condition.Signal();
         this->mutex.Unlock();
@@ -65,7 +64,7 @@ namespace Threading
       {
         this->mutex.Lock();
 
-        int size = this->items.size();
+        int size = this->items.Size();
 
         this->mutex.Unlock();
 
