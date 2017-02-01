@@ -21,6 +21,7 @@ void Run(Core::Application* app)
 
     if(UI::Console::Read() == "quit")
     {
+      UI::Console::WriteLine("Double time");
       UI::Console::WriteLine("Time to exit");
       return;
     }

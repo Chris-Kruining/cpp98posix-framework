@@ -2,6 +2,7 @@
 #define _COLLECTIONS_LIST_H_
 
 #include <stdexcept>
+#include <iostream>
 
 #include "Threading/Thread.h"
 
@@ -11,44 +12,48 @@ namespace Collections
   class List : public Threading::Thread
   {
     private:
-      int sizeIncrement;
+      int capacity;
       int size;
       int position;
       T* items;
 
       void Grow()
       {
-        this->sizeIncrement *= 2;
-        T* newArr = new T[this->sizeIncrement];
+        this->capacity *= 2;
+        T* newArr = new T[this->capacity];
 
         std::copy(this->items, this->items + this->size, newArr);
 
         delete [] this->items;
 
         this->items = newArr;
+
+        this->Signal();
       }
 
       void Shrink()
       {
-        if(this->size >= this->sizeIncrement)
+        if(this->size >= (this->capacity / 2))
         {
           return;
         }
 
-        this->sizeIncrement /= 2;
-        T* newArr = new T[this->sizeIncrement];
+        this->capacity /= 2;
+        T* newArr = new T[this->capacity];
 
         std::copy(this->items, this->items + this->size, newArr);
 
         delete [] this->items;
 
         this->items = newArr;
+
+        this->Signal();
       }
 
     public:
       List()
       {
-        this->sizeIncrement = 2;
+        this->capacity = 2;
         this->size = 0;
         this->position = 0;
         this->items = new T[2];
@@ -57,7 +62,11 @@ namespace Collections
       }
       virtual ~List()
       {
+        this->Lock();
+
         delete [] this->items;
+
+        this->Unlock();
       }
 
       virtual void* Run() // inherited from Thread
@@ -75,11 +84,11 @@ namespace Collections
 
           lastSize = this->size;
 
-          if(this->size == this->sizeIncrement)
+          if(this->size == this->capacity)
           {
             this->Grow();
           }
-          else if(this->size <= this->sizeIncrement / 2)
+          else if(this->size < this->capacity / 2)
           {
             this->Shrink();
           }
@@ -114,6 +123,11 @@ namespace Collections
       int Add(T item)
       {
         this->Lock();
+
+        if(this->size == this->capacity)
+        {
+          this->Grow();
+        }
 
         this->items[this->size] = item;
         this->size++;

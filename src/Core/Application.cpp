@@ -30,15 +30,12 @@ namespace Core
 
   int Application::Stop()
   {
-    Threading::ThreadManager::JoinAll();
-
     return 0;
   }
 
   void Application::Kill(int signalNumber)
   {
     UI::Console::WriteLine("Program killed with signal " + Utilities::String::FromInt(signalNumber));
-    Threading::ThreadManager::KillAll();
 
     exit(0);
   }
