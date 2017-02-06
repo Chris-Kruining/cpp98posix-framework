@@ -3,8 +3,11 @@
 #ifndef _THREADING_QUEUE_H_
 #define _THREADING_QUEUE_H_
 
-#include <vector>
 #include <pthread.h>
+
+#include "Mutex.h"
+#include "Cond.h"
+#include "Collections/List.h"
 
 namespace Threading
 {
@@ -12,63 +15,58 @@ namespace Threading
   class Queue
   {
     protected:
-      std::vector<T> items;
-      pthread_mutex_t mutex;
-      pthread_cond_t condition;
+      Collections::List<T> items;
+      Mutex mutex;
+      Cond condition;
       static const int maxSize = 2000;
 
     public:
       Queue()
       {
-        pthread_mutex_init(&this->mutex, NULL);
-        pthread_cond_init(&this->condition, NULL);
       }
 
       virtual ~Queue()
       {
-        pthread_mutex_destroy(&this->mutex);
-        pthread_cond_destroy(&this->condition);
       }
 
       T Shift()
       {
-        pthread_mutex_lock(&this->mutex);
+        this->mutex.Lock();
 
-        while(this->items.size() == 0)
+        while(this->items.Size() == 0)
         {
-          pthread_cond_wait(&this->condition, &this->mutex);
+          this->condition.Wait(this->mutex);
         }
 
-        T item = this->items.front();
-        this->items.erase(this->items.begin());
+        T item = this->items.Shift();
 
-        pthread_mutex_unlock(&this->mutex);
+        this->mutex.Unlock();
 
         return item;
       }
 
       void Push(T item)
       {
-        pthread_mutex_lock(&this->mutex);
+        this->mutex.Lock();
 
-        while(this->items.size() >= this->maxSize)
+        while(this->items.Size() >= this->maxSize)
         {
-          pthread_cond_wait(&this->condition, &this->mutex);
+          this->condition.Wait(this->mutex);
         }
 
-        this->items.push_back(item);
+        this->items.Add(item);
 
-        pthread_cond_signal(&this->condition);
-        pthread_mutex_unlock(&this->mutex);
+        this->condition.Signal();
+        this->mutex.Unlock();
       }
 
       int Size()
       {
-        pthread_mutex_lock(&this->mutex);
+        this->mutex.Lock();
 
-        int size = this->items.size();
+        int size = this->items.Size();
 
-        pthread_mutex_unlock(&this->mutex);
+        this->mutex.Unlock();
 
         return size;
       }

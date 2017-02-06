@@ -2,8 +2,9 @@
 #define _COLLECTIONS_LIST_H_
 
 #include <stdexcept>
+#include <iostream>
 
-#include "../Threading/Thread.h"
+#include "Threading/Thread.h"
 
 namespace Collections
 {
@@ -11,15 +12,15 @@ namespace Collections
   class List : public Threading::Thread
   {
     private:
-      int sizeIncrement;
+      int capacity;
       int size;
+      int position;
       T* items;
 
       void Grow()
       {
 <<<<<<< develop
-        this->sizeIncrement *= 2;
-        T* newArr = new T[this->sizeIncrement];
+        T* newArr = new T[this->capacity];
 =======
         this->capacity *= 2;
         T* newArr = (T*)operator new[](this->capacity * sizeof(T));
@@ -30,18 +31,19 @@ namespace Collections
         delete [] this->items;
 
         this->items = newArr;
+
+        this->Signal();
       }
 
       void Shrink()
       {
-        if(this->size >= this->sizeIncrement)
+        if(this->size >= (this->capacity / 2))
         {
           return;
         }
 
 <<<<<<< develop
-        this->sizeIncrement /= 2;
-        T* newArr = new T[this->sizeIncrement];
+        T* newArr = new T[this->capacity];
 =======
         this->capacity /= 2;
         T* newArr = (T*)operator new[](this->capacity * sizeof(T));
@@ -52,12 +54,14 @@ namespace Collections
         delete [] this->items;
 
         this->items = newArr;
+
+        this->Signal();
       }
 
     public:
       List()
       {
-        this->sizeIncrement = 2;
+        this->capacity = 2;
         this->size = 0;
 <<<<<<< develop
         this->items = new T[2];
@@ -70,7 +74,11 @@ namespace Collections
       }
       virtual ~List()
       {
+        this->Lock();
+
         delete [] this->items;
+
+        this->Unlock();
       }
 
       virtual void* Run() // inherited from Thread
@@ -88,11 +96,11 @@ namespace Collections
 
           lastSize = this->size;
 
-          if(this->size == this->sizeIncrement)
+          if(this->size == this->capacity)
           {
             this->Grow();
           }
-          else if(this->size <= this->sizeIncrement / 2)
+          else if(this->size < this->capacity / 2)
           {
             this->Shrink();
           }
@@ -112,7 +120,7 @@ namespace Collections
         {
           this->Unlock();
 
-          throw out_of_range(
+          throw std::out_of_range(
             "Index is out of bounds"
           );
         }
@@ -127,6 +135,11 @@ namespace Collections
       int Add(T item)
       {
         this->Lock();
+
+        if(this->size == this->capacity)
+        {
+          this->Grow();
+        }
 
         this->items[this->size] = item;
         this->size++;
@@ -223,6 +236,20 @@ namespace Collections
         this->Unlock();
 
         return size;
+      }
+
+      List<T>* Each(void (*m)(T))
+      {
+        this->Lock();
+
+        for(int i = 0; i < this->size; i++)
+        {
+          m(this->items[i]);
+        }
+
+        this->Unlock();
+
+        return this;
       }
   };
 }

@@ -1,35 +1,35 @@
 sudo: required
-dist: trusty
-language: cpp
+
+language:
+  - cpp
 
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.6
     packages:
       - gcc-5
       - g++-5
-      - clang-3.6
 
 compiler:
-  - clang
   - gcc
 
 os:
   - linux
-  - osx
-
-branches:
-  only:
-    - master
-    - "/^v\\d+\\./"
 
 before_install:
+  - pip install --user cpp-coveralls
   - sudo apt-get update -qq
-  - sudo apt-get install -y libboost-test-dev
 
 script:
   - mkdir build
   - cd build
-  - cmake .. && make
+  - cmake ..
+  - make
+  - ctest
+
+after_success:
+  - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
+
+notifications:
+  email: false

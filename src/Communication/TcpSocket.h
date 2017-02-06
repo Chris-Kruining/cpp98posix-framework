@@ -13,13 +13,13 @@
 
 #include "ISocket.h"
 #include "TcpEventArgs.h"
-#include "../Logging/ILogger.h"
-#include "../Logging/LogEventArgs.h"
-#include "../Event/EventArgs.h"
-#include "../Event/Observable.h"
-#include "../Event/EventHandler.h"
-#include "../Threading/Queue.h"
-#include "../Threading/ThreadManager.h"
+#include "Logging/ILogger.h"
+#include "Logging/LogEventArgs.h"
+#include "Event/EventArgs.h"
+#include "Event/Observable.h"
+#include "Event/EventHandler.h"
+#include "Threading/Queue.h"
+#include "Threading/ThreadManager.h"
 
 namespace Communication
 {

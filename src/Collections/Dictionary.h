@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-#include "../Threading/Thread.h"
+#include "Threading/Thread.h"
 
 namespace Collections
 {
@@ -213,6 +213,20 @@ namespace Collections
         this->Unlock();
 
         return size;
+      }
+
+      Dictionary<KeyT, ValueT> Each(void (&m)(KeyT, ValueT))
+      {
+        this->Lock();
+
+        for(int i = 0; i < this->size; i++)
+        {
+          m(this->items[i]->Key, this->items[i]->Value);
+        }
+
+        this->Unlock();
+
+        return this;
       }
   };
 }

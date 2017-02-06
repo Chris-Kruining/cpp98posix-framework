@@ -4,10 +4,9 @@
 #include "ILogger.h"
 #include "LogEventArgs.h"
 <<<<<<< develop
-#include "../Event/Observer.h"
-#include "../Event/EventHandler.h"
-#include "../Communication/TcpSocket.h"
-#include "../UI/Console.h"
+#include "Event/EventHandler.h"
+#include "Communication/TcpSocket.h"
+#include "UI/Console.h"
 =======
 #include "Event/Observer.h"
 #include "Event/EventHandler.h"

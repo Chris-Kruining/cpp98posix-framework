@@ -1,0 +1,55 @@
+#include <unistd.h>
+#include <string>
+
+#include "Core/Application.h"
+#include "UI/Console.h"
+<<<<<<< HEAD
+#include "Networking/Tcp/Listener.h"
+#include "Networking/Host.h"
+
+void Run(Core::Application* app)
+{
+  Networking::Host host;
+  host.name = "";
+  host.port = 2000;
+  Networking::Tcp::Listener listener(host);
+
+  while(true)
+  {
+    if(UI::Console::Read() == "quit")
+    {
+=======
+#include "Collections/List.h"
+
+void Run(Core::Application* app)
+{
+  Collections::List<std::string> list;
+  list.Add("Kaas");
+  list.Add("is");
+  list.Add("lekker");
+  list.Add("!!!");
+
+  while(true)
+  {
+    list.Each([](std::string item){
+      UI::Console::WriteLine(item);
+    });
+
+    if(UI::Console::Read() == "quit")
+    {
+      UI::Console::WriteLine("Double time");
+      UI::Console::WriteLine("Time to exit");
+>>>>>>> 4cbf41033f82d5f1b170cc7cb26a71aedddf414a
+      return;
+    }
+
+    UI::Console::WriteLine("I'm up for another round");
+  }
+}
+
+int main(int argc, char* argv[])
+{
+  Core::Application app(argc, argv);
+
+  return app.Run(Run);
+}

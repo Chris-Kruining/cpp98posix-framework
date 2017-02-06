@@ -4,8 +4,6 @@ namespace Threading
 {
   Thread::Thread() : id(0), running(false), detached(false), stopped(false)
   {
-    pthread_mutex_init(&this->mutex, NULL);
-    pthread_cond_init(&this->condition, NULL);
   }
 
   Thread::~Thread()
@@ -19,20 +17,14 @@ namespace Threading
     {
       pthread_cancel(this->id);
     }
-
-    pthread_mutex_destroy(&this->mutex);
-    pthread_cond_destroy(&this->condition);
   }
 
   bool Thread::Start()
   {
-    if(!this->running)
+    if(!this->running && pthread_create(&this->id, NULL, RunThread, this) == 0)
     {
-      if(pthread_create(&this->id, NULL, RunThread, this) == 0)
-      {
-        this->running = true;
-        return true;
-      }
+      this->running = true;
+      return true;
     }
 
     return false;
@@ -52,14 +44,11 @@ namespace Threading
 
   bool Thread::Join()
   {
-    if(this->running)
+    if(this->running && pthread_join(this->id, NULL) == 0)
     {
-      if(pthread_join(this->id, NULL) == 0)
-      {
-        this->detached = true;
-        this->running = false;
-        return true;
-      }
+      this->detached = true;
+      this->running = false;
+      return true;
     }
 
     return false;
@@ -67,13 +56,10 @@ namespace Threading
 
   bool Thread::Detach()
   {
-    if(this->running && !this->detached)
+    if(this->running && !this->detached && pthread_detach(this->id) == 0)
     {
-      if(pthread_detach(this->id) == 0)
-      {
-        this->detached = true;
-        return true;
-      }
+      this->detached = true;
+      return true;
     }
 
     return false;
@@ -86,20 +72,20 @@ namespace Threading
 
   void Thread::Wait()
   {
-    pthread_cond_wait(&this->condition, &this->mutex);
+    this->condition.Wait(this->mutex);
   }
   void Thread::Signal()
   {
-    pthread_cond_signal(&this->condition);
+    this->condition.Signal();
   }
 
   void Thread::Lock()
   {
-    pthread_mutex_lock(&this->mutex);
+    this->mutex.Lock();
   }
   void Thread::Unlock()
   {
-    pthread_mutex_unlock(&this->mutex);
+    this->mutex.Unlock();
   }
 
   void* Thread::RunThread(void* context)
