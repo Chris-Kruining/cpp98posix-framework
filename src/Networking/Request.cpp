@@ -1,6 +1,6 @@
 #include "Request.h"
 
-namespace Communication
+namespace Networking
 {
   Request::Request(std::string message) : message(message)
   {
@@ -17,7 +17,7 @@ namespace Communication
     this->message = message;
   }
 
-  std::string Request::GetMessage()
+  std::string Request::GetMessage() const
   {
     return this->message;
   }

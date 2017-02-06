@@ -17,8 +17,13 @@ namespace Collections
 
       void Grow()
       {
+<<<<<<< develop
         this->sizeIncrement *= 2;
         T* newArr = new T[this->sizeIncrement];
+=======
+        this->capacity *= 2;
+        T* newArr = (T*)operator new[](this->capacity * sizeof(T));
+>>>>>>> local
 
         std::copy(this->items, this->items + this->size, newArr);
 
@@ -34,8 +39,13 @@ namespace Collections
           return;
         }
 
+<<<<<<< develop
         this->sizeIncrement /= 2;
         T* newArr = new T[this->sizeIncrement];
+=======
+        this->capacity /= 2;
+        T* newArr = (T*)operator new[](this->capacity * sizeof(T));
+>>>>>>> local
 
         std::copy(this->items, this->items + this->size, newArr);
 
@@ -49,7 +59,12 @@ namespace Collections
       {
         this->sizeIncrement = 2;
         this->size = 0;
+<<<<<<< develop
         this->items = new T[2];
+=======
+        this->position = 0;
+        this->items = (T*)operator new[](2 * sizeof(T));
+>>>>>>> local
 
         this->Start();
       }
@@ -150,18 +165,9 @@ namespace Collections
       {
         this->Lock();
 
-        if(block)
+        while(this->size == 0)
         {
-          while(this->size == 0)
-          {
-            this->Wait();
-          }
-        }
-        else if(!block && this->size == 0)
-        {
-          this->Unlock();
-
-          return NULL;
+          this->Wait();
         }
 
         T item = this->items[0];

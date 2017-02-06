@@ -2,7 +2,7 @@
 
 namespace Threading
 {
-  Thread::Thread() : id(0), running(false), detached(false)
+  Thread::Thread() : id(0), running(false), detached(false), stopped(false)
   {
     pthread_mutex_init(&this->mutex, NULL);
     pthread_cond_init(&this->condition, NULL);
@@ -38,6 +38,18 @@ namespace Threading
     return false;
   }
 
+  bool Thread::Stop()
+  {
+    if(this->running && !this->stopped)
+    {
+      this->stopped = true;
+      this->Detach();
+      return true;
+    }
+
+    return false;
+  }
+
   bool Thread::Join()
   {
     if(this->running)
@@ -67,9 +79,9 @@ namespace Threading
     return false;
   }
 
-  bool Thread::IsRunning()
+  bool Thread::IsRunning() const
   {
-    return this->running;
+    return this->running && !this->stopped;
   }
 
   void Thread::Wait()

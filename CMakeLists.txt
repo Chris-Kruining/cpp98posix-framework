@@ -20,9 +20,40 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_definitions(-std=c++98 -O3 -Wall)
 endif()
 
+<<<<<<< develop
 # Create executable that links the source code, unit test, header file, and Boost.
 add_executable(exe ${src} ${test})
 target_link_libraries(exe ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+=======
+include_directories(src)
+
+# Add source files
+set(src
+  src/Networking/Request.cpp
+  src/Networking/Response.cpp
+  src/Networking/Tcp/EventArgs.cpp
+  src/Networking/Tcp/Socket.cpp
+  src/Networking/Tcp/Listener.cpp
+  src/Core/Application.cpp
+  src/Event/Observable.cpp
+  src/Event/Observer.cpp
+  src/Logging/LogEventArgs.cpp
+  src/Logging/TcpLogger.cpp
+  src/Threading/Cond.cpp
+  src/Threading/Mutex.cpp
+  src/Threading/Thread.cpp
+  src/UI/Console.cpp
+  src/Utilities/String.cpp
+)
+
+add_library(${project_name_shared_lib} SHARED src/Core/Application.cpp)
+add_library(${project_name_lib} src/Core/Application.cpp)
+add_executable(${project_name} src/main.cpp ${src})
+
+target_link_libraries(${project_name} ${project_name_lib} pthread)
+
+include_directories(lib/catch)
+>>>>>>> local
 
 # Add support for unit tests e.g. ctest.
 enable_testing()

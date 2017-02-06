@@ -3,23 +3,27 @@
 
 #include "ILogger.h"
 #include "LogEventArgs.h"
+<<<<<<< develop
 #include "../Event/Observer.h"
 #include "../Event/EventHandler.h"
 #include "../Communication/TcpSocket.h"
 #include "../UI/Console.h"
+=======
+#include "Event/Observer.h"
+#include "Event/EventHandler.h"
+#include "Networking/Tcp/Socket.h"
+#include "UI/Console.h"
+>>>>>>> local
 
 namespace Logging
 {
-  using namespace Event;
-  using Communication::TcpSocket;
-
   class TcpLogger : public ILogger
   {
     public:
-      TcpLogger(TcpSocket* socket);
+      TcpLogger(Networking::Tcp::Socket* socket);
       ~TcpLogger();
       void OnUpdate(LogEventArgs* args);
-      void Log(string);
+      void Log(std::string);
   };
 }
 

@@ -21,16 +21,9 @@ namespace Event
     {
       if(this->IsInNamespace(this->observers[i], eventName))
       {
-        int id = Threading::ThreadManager::SpawnThread(this->observers[i], &IObserver::Update, args);
-
-        if(id < 0)
-        {
-          cout << "oops, spawning threads is tough..." << endl;
-        }
+        // TODO - redo the way threads are made for the events
       }
     }
-
-    usleep(10); // workaround to give ThreadManager the time to copy the eventargs...
   }
 
   bool Observable::IsInNamespace(IObserver* observer, string eventName)

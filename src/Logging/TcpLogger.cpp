@@ -2,9 +2,9 @@
 
 namespace Logging
 {
-  TcpLogger::TcpLogger(TcpSocket* socket)
+  TcpLogger::TcpLogger(Networking::Tcp::Socket* socket)
   {
-    new EventHandler<TcpLogger, LogEventArgs, &TcpLogger::OnUpdate>(this, socket, "tcp.log");
+    new Event::EventHandler<TcpLogger, LogEventArgs, &TcpLogger::OnUpdate>(this, socket, "tcp.log");
   }
 
   TcpLogger::~TcpLogger()
@@ -17,7 +17,7 @@ namespace Logging
     this->Log(args->ToString());
   }
 
-  void TcpLogger::Log(string message)
+  void TcpLogger::Log(std::string message)
   {
     UI::Console::WriteLine(message);
   }

@@ -9,8 +9,12 @@
 #include "IObservable.h"
 #include "IObserver.h"
 #include "EventArgs.h"
+<<<<<<< develop
 #include "../Utilities/String.h"
 #include "../Threading/ThreadManager.h"
+=======
+#include "Utilities/String.h"
+>>>>>>> local
 
 using namespace std;
 using namespace Utilities;

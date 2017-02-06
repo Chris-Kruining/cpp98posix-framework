@@ -16,6 +16,7 @@ namespace Threading
       bool Start();
       bool Join();
       bool Detach();
+      bool Stop();
 
       void Wait();
       void Signal();
@@ -23,7 +24,7 @@ namespace Threading
       void Lock();
       void Unlock();
 
-      bool IsRunning();
+      bool IsRunning() const;
       pthread_t Self();
 
       virtual void* Run() = 0;
@@ -35,6 +36,7 @@ namespace Threading
       pthread_cond_t condition;
       bool running;
       bool detached;
+      bool stopped;
   };
 }
 

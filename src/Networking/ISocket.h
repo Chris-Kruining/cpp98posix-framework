@@ -1,9 +1,9 @@
-#ifndef _COMMUNICATION_ISOCKET_H_
-#define _COMMUNICATION_ISOCKET_H_
+#ifndef _NETWORKING_ISOCKET_H_
+#define _NETWORKING_ISOCKET_H_
 
 #include <string>
 
-namespace Communication
+namespace Networking
 {
   class ISocket
   {

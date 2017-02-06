@@ -1,9 +1,9 @@
-#ifndef _COMMUNICATION_REQUEST_H_
-#define _COMMUNICATION_REQUEST_H_
+#ifndef _NETWORKING_REQUEST_H_
+#define _NETWORKING_REQUEST_H_
 
 #include <string>
 
-namespace Communication
+namespace Networking
 {
   class Request
   {
@@ -14,7 +14,7 @@ namespace Communication
       Request(std::string message);
       virtual ~Request();
       void SetMessage(std::string message);
-      std::string GetMessage();
+      std::string GetMessage() const;
       std::string ToString() const;
   };
 }

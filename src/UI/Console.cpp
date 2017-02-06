@@ -11,7 +11,10 @@ namespace UI
 
   Console::~Console()
   {
-
+    if(!this->Stop())
+    {
+      std::cout << "Console failed to detach" << '\n';
+    }
   }
 
   void Console::Write(std::string message)
