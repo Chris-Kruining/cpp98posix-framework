@@ -58,16 +58,12 @@ namespace Networking
     {
       while (this->listening)
       {
-        UI::Console::WriteLine("Waiting for clients");
         int client = accept(this->id,  (struct sockaddr*)&this->host, &this->size);
 
         if(client < 0)
         {
           continue;
         }
-
-        UI::Console::WriteLine("Accepted a client...");
-        sleep(1);
 
         this->clients.Add(new Networking::Tcp::Socket(client));
 

@@ -72,20 +72,32 @@ namespace Threading
 
   void Thread::Wait()
   {
-    this->condition.Wait(this->mutex);
+    if(!this->stopped)
+    {
+      this->condition.Wait(this->mutex);
+    }
   }
   void Thread::Signal()
   {
-    this->condition.Signal();
+    if(!this->stopped)
+    {
+      this->condition.Signal();
+    }
   }
 
   void Thread::Lock()
   {
-    this->mutex.Lock();
+    if(!this->stopped)
+    {
+      this->mutex.Lock();
+    }
   }
   void Thread::Unlock()
   {
-    this->mutex.Unlock();
+    if(!this->stopped)
+    {
+      this->mutex.Unlock();
+    }
   }
 
   void* Thread::RunThread(void* context)
