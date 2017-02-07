@@ -3,16 +3,10 @@
 
 #include "ILogger.h"
 #include "LogEventArgs.h"
-<<<<<<< develop
-#include "Event/EventHandler.h"
-#include "Communication/TcpSocket.h"
-#include "UI/Console.h"
-=======
 #include "Event/Observer.h"
 #include "Event/EventHandler.h"
 #include "Networking/Tcp/Socket.h"
 #include "UI/Console.h"
->>>>>>> local
 
 namespace Logging
 {

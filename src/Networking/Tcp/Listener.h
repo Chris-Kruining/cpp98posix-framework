@@ -6,11 +6,13 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <unistd.h>
 
 #include "Networking/Host.h"
 #include "Networking/Tcp/Socket.h"
 #include "Threading/Thread.h"
 #include "Event/Observable.h"
+#include "UI/Console.h"
 
 namespace Networking
 {

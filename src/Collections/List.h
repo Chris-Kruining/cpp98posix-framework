@@ -19,12 +19,8 @@ namespace Collections
 
       void Grow()
       {
-<<<<<<< develop
-        T* newArr = new T[this->capacity];
-=======
         this->capacity *= 2;
         T* newArr = (T*)operator new[](this->capacity * sizeof(T));
->>>>>>> local
 
         std::copy(this->items, this->items + this->size, newArr);
 
@@ -42,12 +38,8 @@ namespace Collections
           return;
         }
 
-<<<<<<< develop
-        T* newArr = new T[this->capacity];
-=======
         this->capacity /= 2;
         T* newArr = (T*)operator new[](this->capacity * sizeof(T));
->>>>>>> local
 
         std::copy(this->items, this->items + this->size, newArr);
 
@@ -63,12 +55,8 @@ namespace Collections
       {
         this->capacity = 2;
         this->size = 0;
-<<<<<<< develop
-        this->items = new T[2];
-=======
         this->position = 0;
         this->items = (T*)operator new[](2 * sizeof(T));
->>>>>>> local
 
         this->Start();
       }

@@ -4,15 +4,9 @@
 #include <signal.h>
 #include <string>
 
-<<<<<<< develop
-#include "Collections/Dictionary.h"
-#include "UI/Console.h"
-#include "Threading/ThreadManager.h"
-=======
 #include "Utilities/String.h"
 #include "Collections/Dictionary.h"
 #include "UI/Console.h"
->>>>>>> local
 
 namespace Core
 {

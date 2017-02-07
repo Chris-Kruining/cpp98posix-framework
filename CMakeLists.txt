@@ -14,11 +14,6 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_definitions(-std=c++11 -O3 -Wall)
 endif()
 
-<<<<<<< develop
-
-# Add source files
-set(src
-=======
 include_directories(src)
 
 # Add source files
@@ -47,7 +42,6 @@ add_executable(${project_name} src/main.cpp ${src})
 target_link_libraries(${project_name} ${project_name_lib} pthread)
 
 include_directories(lib/catch)
->>>>>>> local
 
 enable_testing()
 

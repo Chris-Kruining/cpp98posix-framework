@@ -23,7 +23,7 @@ namespace Networking
         return;
       }
 
-      this->size = (sockaddr_in)sizeof(this->host);
+      this->size = sizeof((sockaddr_in)this->host);
 
       this->Listen();
 
@@ -58,12 +58,16 @@ namespace Networking
     {
       while (this->listening)
       {
+        UI::Console::WriteLine("Waiting for clients");
         int client = accept(this->id,  (struct sockaddr*)&this->host, &this->size);
 
         if(client < 0)
         {
           continue;
         }
+
+        UI::Console::WriteLine("Accepted a client...");
+        sleep(1);
 
         this->clients.Add(new Networking::Tcp::Socket(client));
 
