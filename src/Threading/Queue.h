@@ -4,6 +4,7 @@
 #define _THREADING_QUEUE_H_
 
 #include <pthread.h>
+#include <iostream>
 
 #include "Mutex.h"
 #include "Cond.h"
@@ -27,6 +28,7 @@ namespace Threading
 
       virtual ~Queue()
       {
+        std::cout << "Destructing Queue" << '\n';
       }
 
       T Shift()

@@ -62,6 +62,8 @@ namespace Collections
       }
       virtual ~List()
       {
+        std::cout << "Destructing List" << '\n';
+
         this->Lock();
 
         delete [] this->items;

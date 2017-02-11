@@ -8,6 +8,8 @@ namespace Threading
 
   Thread::~Thread()
   {
+    this->stopped = true;
+
     if(!this->detached && this->running)
     {
       pthread_detach(this->id);
