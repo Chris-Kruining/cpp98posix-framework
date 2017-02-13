@@ -12,7 +12,7 @@ addons:
       - g++-5
 
 compiler:
-  - gcc
+  - g++
 
 os:
   - linux
