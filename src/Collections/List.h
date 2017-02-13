@@ -20,7 +20,7 @@ namespace Collections
       void Grow()
       {
         this->capacity *= 2;
-        T* newArr = (T*)operator new[](this->capacity * sizeof(T));
+        T* newArr = new T[this->capacity];
 
         std::copy(this->items, this->items + this->size, newArr);
 
@@ -39,7 +39,7 @@ namespace Collections
         }
 
         this->capacity /= 2;
-        T* newArr = (T*)operator new[](this->capacity * sizeof(T));
+        T* newArr = new T[this->capacity];
 
         std::copy(this->items, this->items + this->size, newArr);
 
@@ -56,14 +56,12 @@ namespace Collections
         this->capacity = 2;
         this->size = 0;
         this->position = 0;
-        this->items = (T*)operator new[](2 * sizeof(T));
+        this->items = new T[2];
 
         this->Start();
       }
       virtual ~List()
       {
-        std::cout << "Destructing List" << '\n';
-
         this->Lock();
 
         delete [] this->items;

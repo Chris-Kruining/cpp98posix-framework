@@ -41,7 +41,7 @@ namespace Networking
 
     Networking::Response Socket::Read()
     {
-      return this->readQueue.Shift();
+      return *this->readQueue.Shift();
     }
 
     void Socket::OnReceive(EventArgs* args)

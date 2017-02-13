@@ -25,7 +25,7 @@ namespace Networking
       private:
         int id;
         Threading::Queue<std::string> sendQueue;
-        Threading::Queue<Networking::Response> readQueue;
+        Threading::Queue<Networking::Response*> readQueue;
 
       public:
         Socket(Networking::Host host);
