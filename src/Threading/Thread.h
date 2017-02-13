@@ -27,6 +27,8 @@ namespace Threading
       void Unlock();
 
       bool IsRunning() const;
+      bool IsLocked();
+      bool CanLock();
       pthread_t Self();
 
       virtual void* Run() = 0;
@@ -34,6 +36,8 @@ namespace Threading
 
     private:
       pthread_t id;
+      pthread_t* lockedThreads;
+      int lockedThreadsCount;
       Mutex mutex;
       Cond condition;
       bool running;

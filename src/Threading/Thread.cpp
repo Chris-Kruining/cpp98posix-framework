@@ -2,8 +2,14 @@
 
 namespace Threading
 {
-  Thread::Thread() : id(0), running(false), detached(false), stopped(false)
+  Thread::Thread()
   {
+    this->id = 0;
+    this->lockedThreads = new pthread_t[256];
+    this->lockedThreadsCount = 0;
+    this->running = false;
+    this->detached = false;
+    this->stopped = false;
   }
 
   Thread::~Thread()
@@ -19,6 +25,8 @@ namespace Threading
     {
       pthread_cancel(this->id);
     }
+
+    delete [] this->lockedThreads;
   }
 
   bool Thread::Start()
@@ -71,6 +79,26 @@ namespace Threading
   {
     return this->running && !this->stopped;
   }
+  bool Thread::IsLocked()
+  {
+    for(unsigned char i = 0; i < this->lockedThreadsCount; i++)
+    {
+      if(this->lockedThreads[i] == this->Self())
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
+  bool Thread::CanLock()
+  {
+    return !this->IsLocked() && this->lockedThreadsCount < 256;
+  }
+  pthread_t Thread::Self()
+  {
+    return pthread_self();
+  }
 
   void Thread::Wait()
   {
@@ -89,16 +117,33 @@ namespace Threading
 
   void Thread::Lock()
   {
-    if(!this->stopped)
+    if(!this->stopped && this->CanLock())
     {
       this->mutex.Lock();
+
+      this->lockedThreads[this->lockedThreadsCount] = this->Self();
+      this->lockedThreadsCount++;
     }
   }
   void Thread::Unlock()
   {
-    if(!this->stopped)
+    if(!this->stopped && this->IsLocked())
     {
       this->mutex.Unlock();
+
+      bool found = false;
+      for(unsigned char i = 0; i < this->lockedThreadsCount; i++)
+      {
+        if(this->lockedThreads[i] == this->Self())
+        {
+          found = true;
+        }
+
+        if(found)
+        {
+          this->lockedThreads[i] = this->lockedThreads[i + 1];
+        }
+      }
     }
   }
 
