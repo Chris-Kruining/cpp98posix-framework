@@ -166,18 +166,9 @@ namespace Collections
       {
         this->Lock();
 
-        if(block)
+        while(this->size == 0)
         {
-          while(this->size == 0)
-          {
-            this->Wait();
-          }
-        }
-        else if(!block && this->size == 0)
-        {
-          this->Unlock();
-
-          return NULL;
+          this->Wait();
         }
 
         T item = this->items[0];

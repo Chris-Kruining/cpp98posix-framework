@@ -3,26 +3,20 @@
 
 #include "Core/Application.h"
 #include "UI/Console.h"
-#include "Collections/List.h"
+#include "Networking/Tcp/Listener.h"
+#include "Networking/Host.h"
 
 void Run(Core::Application* app)
 {
-  Collections::List<std::string> list;
-  list.Add("Kaas");
-  list.Add("is");
-  list.Add("lekker");
-  list.Add("!!!");
+  Networking::Host host;
+  host.name = "";
+  host.port = 2000;
+  Networking::Tcp::Listener listener(host);
 
   while(true)
   {
-    list.Each([](std::string item){
-      UI::Console::WriteLine(item);
-    });
-
     if(UI::Console::Read() == "quit")
     {
-      UI::Console::WriteLine("Double time");
-      UI::Console::WriteLine("Time to exit");
       return;
     }
 

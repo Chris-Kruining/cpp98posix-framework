@@ -7,7 +7,6 @@
 #include "Utilities/String.h"
 #include "Collections/Dictionary.h"
 #include "UI/Console.h"
-#include "Threading/ThreadManager.h"
 
 namespace Core
 {
@@ -25,7 +24,7 @@ namespace Core
       void Init();
       int Stop();
       void ParseParams(int argc, char* argv[]);
-      Collections::Dictionary<std::string, std::string> GetParameters();
+      Collections::Dictionary<std::string, std::string> GetParameters() const;
       static void Kill(int signalNumber);
   };
 }

@@ -10,7 +10,6 @@
 #include "IObserver.h"
 #include "EventArgs.h"
 #include "Utilities/String.h"
-#include "Threading/ThreadManager.h"
 
 using namespace std;
 using namespace Utilities;

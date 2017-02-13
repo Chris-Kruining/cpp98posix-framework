@@ -2,7 +2,7 @@
 
 namespace Logging
 {
-  LogEventArgs::LogEventArgs() : EventArgs<string>("")
+  LogEventArgs::LogEventArgs() : EventArgs<string>(""), level(Info)
   {
 
   }

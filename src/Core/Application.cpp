@@ -25,7 +25,7 @@ namespace Core
 
   void Application::Init()
   {
-    UI::Console::WriteLine("Application is");
+    // UI::Console::WriteLine("Application is");
   }
 
   int Application::Stop()
@@ -42,7 +42,7 @@ namespace Core
 
   void Application::ParseParams(int argc, char* argv[])
   {
-    UI::Console::WriteLine("Number of args :: " + Utilities::String::FromInt(argc -1));
+    // UI::Console::WriteLine("Number of args :: " + Utilities::String::FromInt(argc -1));
 
     if(argc % 2 == 0)
     {
@@ -60,7 +60,7 @@ namespace Core
     }
   }
 
-  Collections::Dictionary<std::string, std::string> Application::GetParameters()
+  Collections::Dictionary<std::string, std::string> Application::GetParameters() const
   {
     return this->parameters;
   }

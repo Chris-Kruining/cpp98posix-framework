@@ -1,5 +1,3 @@
-
-
 #ifndef _THREADING_QUEUE_H_
 #define _THREADING_QUEUE_H_
 

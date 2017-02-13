@@ -2,12 +2,14 @@
 
 namespace Threading
 {
-  Thread::Thread() : id(0), running(false), detached(false)
+  Thread::Thread() : id(0), running(false), detached(false), stopped(false)
   {
   }
 
   Thread::~Thread()
   {
+    this->stopped = true;
+
     if(!this->detached && this->running)
     {
       pthread_detach(this->id);
@@ -24,6 +26,18 @@ namespace Threading
     if(!this->running && pthread_create(&this->id, NULL, RunThread, this) == 0)
     {
       this->running = true;
+      return true;
+    }
+
+    return false;
+  }
+
+  bool Thread::Stop()
+  {
+    if(this->running && !this->stopped)
+    {
+      this->stopped = true;
+      this->Detach();
       return true;
     }
 
@@ -53,27 +67,39 @@ namespace Threading
     return false;
   }
 
-  bool Thread::IsRunning()
+  bool Thread::IsRunning() const
   {
-    return this->running;
+    return this->running && !this->stopped;
   }
 
   void Thread::Wait()
   {
-    this->condition.Wait(this->mutex);
+    if(!this->stopped)
+    {
+      this->condition.Wait(this->mutex);
+    }
   }
   void Thread::Signal()
   {
-    this->condition.Signal();
+    if(!this->stopped)
+    {
+      this->condition.Signal();
+    }
   }
 
   void Thread::Lock()
   {
-    this->mutex.Lock();
+    if(!this->stopped)
+    {
+      this->mutex.Lock();
+    }
   }
   void Thread::Unlock()
   {
-    this->mutex.Unlock();
+    if(!this->stopped)
+    {
+      this->mutex.Unlock();
+    }
   }
 
   void* Thread::RunThread(void* context)

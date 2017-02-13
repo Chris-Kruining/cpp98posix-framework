@@ -18,9 +18,11 @@ include_directories(src)
 
 # Add source files
 set(src
-  src/Communication/Request.cpp
-  src/Communication/TcpEventArgs.cpp
-  src/Communication/TcpSocket.cpp
+  src/Networking/Request.cpp
+  src/Networking/Response.cpp
+  src/Networking/Tcp/EventArgs.cpp
+  src/Networking/Tcp/Socket.cpp
+  src/Networking/Tcp/Listener.cpp
   src/Core/Application.cpp
   src/Event/Observable.cpp
   src/Event/Observer.cpp
@@ -29,7 +31,6 @@ set(src
   src/Threading/Cond.cpp
   src/Threading/Mutex.cpp
   src/Threading/Thread.cpp
-  src/Threading/ThreadManager.cpp
   src/UI/Console.cpp
   src/Utilities/String.cpp
 )
