@@ -4,17 +4,20 @@ namespace Networking
 {
   namespace Tcp
   {
-    Listener::Listener(Networking::Host host) :
-      id(socket(AF_INET, SOCK_STREAM, 0)),
-      host(host)
+    Listener::Listener(Networking::Host host)
     {
+      this->id = socket(AF_INET, SOCK_STREAM, 0);
+
       if(this->id < 0)
       {
         return;
       }
 
+      this->listening = false;
+
+      this->host = host;
       this->host.sin_family = AF_INET;
-      // this->host.sin_addr.s_addr = htons(this->host.name);
+      // this->host.sin_addr.s_addr = htons(this->host.name); TODO - fix this
       this->host.sin_addr.s_addr = htons(INADDR_ANY);
       this->host.sin_port = htons(this->host.port);
 
@@ -37,7 +40,6 @@ namespace Networking
       this->Stop();
 
       close(this->id);
-      // TODO - close the socket
     }
 
     void Listener::Listen()
@@ -58,7 +60,9 @@ namespace Networking
     {
       while (this->listening)
       {
-        int client = accept(this->id,  (struct sockaddr*)&this->host, &this->size);
+        UI::Console::WriteLine("waiting for a client :D");
+
+        int client = accept(this->id, (struct sockaddr*)&this->host, &this->size);
 
         if(client < 0)
         {
