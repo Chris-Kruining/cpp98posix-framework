@@ -6,6 +6,15 @@ set(project_name_lib ${project_name}_lib)
 set(project_name_shared_lib ${project_name}_slib)
 set(CMAKE_BUILD_TYPE Release)
 
+option(BuildShared "BuildShared" ON)
+
+if(BuildShared)
+  set(StaticOrShared "SHARED")
+  add_definitions(-DHUMBLELOGGING_EXPORT)
+else(BuildShared)
+  set(StaticOrShared "STATIC")
+endif(BuildShared)
+
 project(${project_name})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -14,10 +23,40 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_definitions(-std=c++0x -O3 -Wall)
 endif()
 
-include_directories(src)
+# Add header files
+set(headers
+  src/Collections/Dictionary.h
+  src/Collections/List.h
+  src/Networking/Host.h
+  src/Networking/IListener.h
+  src/Networking/ISocket.h
+  src/Networking/Request.h
+  src/Networking/Response.h
+  src/Networking/Tcp/EventArgs.h
+  src/Networking/Tcp/Listener.h
+  src/Networking/Tcp/Socket.h
+  src/Core/Application.h
+  src/Event/EventArgs.h
+  src/Event/EventHandler.h
+  src/Event/IEventArgs.h
+  src/Event/IObservable.h
+  src/Event/IObserver.h
+  src/Event/Observable.h
+  src/Event/Observer.h
+  src/Logging/ILogger.h
+  src/Logging/LogEventArgs.h
+  src/Logging/TcpLogger.h
+  src/Threading/Cond.h
+  src/Threading/IThread.h
+  src/Threading/Mutex.h
+  src/Threading/Queue.h
+  src/Threading/Thread.h
+  src/UI/Console.h
+  src/Utilities/String.h
+)
 
 # Add source files
-set(src
+set(sources
   src/Networking/Request.cpp
   src/Networking/Response.cpp
   src/Networking/Tcp/EventArgs.cpp
@@ -35,9 +74,10 @@ set(src
   src/Utilities/String.cpp
 )
 
-add_library(${project_name_shared_lib} SHARED src/Core/Application.cpp)
-add_library(${project_name_lib} src/Core/Application.cpp)
-add_executable(${project_name} src/main.cpp ${src})
+include_directories(src)
+
+add_library(${project_name_lib} ${StaticOrShared} ${sources} ${header})
+add_executable(${project_name} src/main.cpp ${sources})
 
 target_link_libraries(${project_name} ${project_name_lib} pthread)
 
