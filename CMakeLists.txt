@@ -77,7 +77,7 @@ set(sources
 include_directories(src)
 
 add_library(${project_name_lib} ${StaticOrShared} ${sources} ${header})
-add_executable(${project_name} src/main.cpp ${sources})
+#add_executable(${project_name} src/main.cpp ${sources})
 
 target_link_libraries(${project_name} ${project_name_lib} pthread)
 
