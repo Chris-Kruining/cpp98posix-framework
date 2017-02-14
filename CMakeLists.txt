@@ -3,14 +3,13 @@ cmake_minimum_required(VERSION 2.8)
 set(project_name cpp98posix)
 set(project_name_test ${project_name}_test)
 set(project_name_lib ${project_name}_lib)
-set(project_name_shared_lib ${project_name}_slib)
 set(CMAKE_BUILD_TYPE Release)
 
 option(BuildShared "BuildShared" ON)
 
 if(BuildShared)
   set(StaticOrShared "SHARED")
-  add_definitions(-DHUMBLELOGGING_EXPORT)
+  add_definitions(-DFRAMEWORK_EXPORT)
 else(BuildShared)
   set(StaticOrShared "STATIC")
 endif(BuildShared)
@@ -79,7 +78,7 @@ include_directories(src)
 add_library(${project_name_lib} ${StaticOrShared} ${sources} ${header})
 #add_executable(${project_name} src/main.cpp ${sources})
 
-target_link_libraries(${project_name} ${project_name_lib} pthread)
+#target_link_libraries(${project_name} ${project_name_lib} pthread)
 
 include_directories(lib/catch)
 
