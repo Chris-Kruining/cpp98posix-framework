@@ -2,7 +2,6 @@
 #define _COLLECTIONS_LIST_H_
 
 #include <stdexcept>
-#include <iostream>
 
 #include "Threading/Thread.h"
 
