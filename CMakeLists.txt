@@ -83,8 +83,8 @@ add_library(${project_name_lib} ${StaticOrShared} ${sources} ${header})
 
 install(TARGETS ${project_name_lib}
   RUNTIME DESTINATION bin
-  LIBRARY DESTINATION bin
-  ARCHIVE DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
 )
 install(FILES ${headers} DESTINATION include/${project_name})
 
