@@ -6,6 +6,7 @@ set(project_name_lib ${project_name}_lib)
 set(CMAKE_BUILD_TYPE Release)
 
 option(BuildShared "BuildShared" ON)
+option(BuildTests "BuildTests" OFF)
 
 if(BuildShared)
   set(StaticOrShared "SHARED")
@@ -80,11 +81,20 @@ add_library(${project_name_lib} ${StaticOrShared} ${sources} ${header})
 
 #target_link_libraries(${project_name} ${project_name_lib} pthread)
 
-include_directories(lib/catch)
+install(TARGETS ${project_name_lib}
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
+install(FILES ${headers} DESTINATION include/${project_name})
 
-enable_testing()
+if(BuildTests)
+  include_directories(lib/catch)
 
-add_executable(${project_name_test} test/main.cpp)
-target_link_libraries(${project_name_test} ${project_name_lib} pthread)
+  enable_testing()
 
-add_test(Utilities::String ${project_name_test})
+  add_executable(${project_name_test} test/main.cpp)
+  target_link_libraries(${project_name_test} ${project_name_lib} pthread)
+
+  add_test(Utilities::String ${project_name_test})
+endif()
