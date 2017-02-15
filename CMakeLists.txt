@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(project_name cpp98posix)
 set(project_name_test ${project_name}_test)
-set(project_name_lib ${project_name}_lib)
+set(project_name_lib ${project_name})
 set(CMAKE_BUILD_TYPE Release)
 
 option(BuildShared "BuildShared" ON)
