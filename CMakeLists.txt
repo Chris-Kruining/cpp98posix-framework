@@ -6,6 +6,7 @@ set(project_name_lib ${project_name})
 set(CMAKE_BUILD_TYPE Release)
 
 option(BuildShared "BuildShared" ON)
+option(BuildExecutables "BuildExecutables" OFF)
 option(BuildTests "BuildTests" OFF)
 
 if(BuildShared)
@@ -74,12 +75,8 @@ set(sources
   src/Utilities/String.cpp
 )
 
-include_directories(src)
 
 add_library(${project_name_lib} ${StaticOrShared} ${sources} ${header})
-#add_executable(${project_name} src/main.cpp ${sources})
-
-#target_link_libraries(${project_name} ${project_name_lib} pthread)
 
 install(TARGETS ${project_name_lib}
   RUNTIME DESTINATION bin
@@ -87,6 +84,16 @@ install(TARGETS ${project_name_lib}
   ARCHIVE DESTINATION lib
 )
 install(FILES ${headers} DESTINATION include/${project_name})
+
+if(BuildExecutables)
+  add_executable(Client src/client.cpp ${sources})
+  target_link_libraries(Client ${Framework_LIBRARIES} pthread)
+
+  add_executable(Server src/server.cpp ${sources})
+  target_link_libraries(Server ${Framework_LIBRARIES} pthread)
+
+  include_directories(src)
+endif()
 
 if(BuildTests)
   include_directories(lib/catch)
