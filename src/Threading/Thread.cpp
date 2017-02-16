@@ -83,10 +83,10 @@ namespace Threading
   {
     for(unsigned char i = 0; i < this->lockedThreadsCount; i++)
     {
-      if(this->lockedThreads[i] == this->Self())
-      {
-        return true;
-      }
+      // if(this->lockedThreads[i] == this->Self())
+      // {
+      //   return true;
+      // }
     }
 
     return false;
