@@ -81,12 +81,12 @@ namespace Threading
   }
   bool Thread::IsLocked()
   {
-    for(unsigned char i = 0; i < this->lockedThreadsCount; i++)
+    for(int i = 0; i < this->lockedThreadsCount; i++)
     {
-      // if(this->lockedThreads[i] == this->Self())
-      // {
-      //   return true;
-      // }
+      if(this->lockedThreads[i] == this->Self())
+      {
+        return true;
+      }
     }
 
     return false;
@@ -132,7 +132,7 @@ namespace Threading
       this->mutex.Unlock();
 
       bool found = false;
-      for(unsigned char i = 0; i < this->lockedThreadsCount; i++)
+      for(int i = 0; i < this->lockedThreadsCount; i++)
       {
         if(this->lockedThreads[i] == this->Self())
         {
@@ -144,6 +144,8 @@ namespace Threading
           this->lockedThreads[i] = this->lockedThreads[i + 1];
         }
       }
+
+      this->lockedThreadsCount--;
     }
   }
 
