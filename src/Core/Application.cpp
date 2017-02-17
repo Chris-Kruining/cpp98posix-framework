@@ -15,6 +15,7 @@ namespace Core
   int Application::Run(void(&m)(Application* app))
   {
     signal(SIGINT, &Kill);
+    signal(SIGABRT, &Kill);
 
     this->Init();
 

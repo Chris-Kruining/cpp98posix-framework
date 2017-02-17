@@ -78,6 +78,11 @@ namespace Collections
 
           while(this->size == lastSize)
           {
+            if(!this->IsRunning())
+            {
+              return NULL;
+            }
+
             this->Wait();
           }
 
