@@ -75,6 +75,7 @@ set(sources
   src/Utilities/String.cpp
 )
 
+include_directories(src)
 
 add_library(${project_name_lib} ${StaticOrShared} ${sources} ${header})
 
@@ -91,8 +92,6 @@ if(BuildExecutables)
 
   add_executable(Server src/server.cpp ${sources})
   target_link_libraries(Server ${Framework_LIBRARIES} pthread)
-
-  include_directories(src)
 endif()
 
 if(BuildTests)
