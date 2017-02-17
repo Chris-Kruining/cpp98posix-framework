@@ -14,7 +14,7 @@ void Run(Core::Application* app)
 
   // TODO - draw menu and wait for input
   UI::Console::Write("Press any key to exit");
-  UI::Console::WriteLine(UI::Console::Read());
+  UI::Console::ReadKey();
 }
 
 int main(int argc, char* argv[])

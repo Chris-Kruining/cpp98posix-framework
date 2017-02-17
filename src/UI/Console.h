@@ -21,6 +21,7 @@ namespace UI
       static void Write(std::string message);
       static void WriteLine(std::string message);
       static std::string Read();
+      static char ReadKey();
 
       virtual void* Run(); // inherited from Thread
   };

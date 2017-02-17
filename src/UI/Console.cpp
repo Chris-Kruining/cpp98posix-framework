@@ -11,6 +11,8 @@ namespace UI
 
   Console::~Console()
   {
+    std::cout.flush();
+
     if(!this->Stop())
     {
       std::cout << "Console failed to detach" << '\n';
@@ -33,6 +35,11 @@ namespace UI
     std::cin >> input;
 
     return input;
+  }
+
+  char Console::ReadKey() // TODO - Make a proper key enum to cover non alfanumeric characters, or better, an enum based on current encoding
+  {
+    return std::cin.peek();
   }
 
   void* Console::Run()
