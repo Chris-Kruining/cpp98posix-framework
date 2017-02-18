@@ -117,12 +117,19 @@ namespace Threading
 
   void Thread::Lock()
   {
+    while(!this->CanLock() && !this->IsLocked())
+    {
+      this->Wait();
+    }
+
     if(!this->stopped && this->CanLock())
     {
       this->mutex.Lock();
 
       this->lockedThreads[this->lockedThreadsCount] = this->Self();
       this->lockedThreadsCount++;
+
+      this->Signal();
     }
   }
   void Thread::Unlock()
@@ -146,6 +153,8 @@ namespace Threading
       }
 
       this->lockedThreadsCount--;
+
+      this->Signal();
     }
   }
 
