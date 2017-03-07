@@ -9,6 +9,6 @@ namespace Networking
 
   Response::~Response()
   {
-    
+
   }
 }

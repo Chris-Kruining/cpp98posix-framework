@@ -21,14 +21,19 @@ namespace Networking
       this->host.sin_addr.s_addr = htons(INADDR_ANY);
       this->host.sin_port = htons(this->host.port);
 
-      if(this->Bind() < 0)
+      int res = this->Bind();
+      if(res < 0)
       {
+        UI::Console::WriteLine("something went wrong...");
+        std::cout << res << '\n';
         return;
       }
 
       this->size = sizeof((sockaddr_in)this->host);
 
       this->Listen();
+
+      std::cout << this->listening << '\n';
 
       this->Start();
     }
@@ -53,7 +58,7 @@ namespace Networking
 
     int Listener::Bind()
     {
-      return bind(this->id, (struct sockaddr*)&this->host, sizeof(this->host));
+      return bind(this->id, (struct sockaddr*)&this->host, sizeof(struct sockaddr));
     }
 
     void* Listener::Run()
@@ -68,6 +73,8 @@ namespace Networking
         {
           continue;
         }
+
+        UI::Console::WriteLine("a client has connected");
 
         this->clients.Add(new Networking::Tcp::Socket(client));
 

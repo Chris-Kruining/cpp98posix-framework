@@ -3,6 +3,8 @@
 #include "Logging/TcpLogger.h"
 #include "Networking/Tcp/Socket.h"
 
+#include <unistd.h>
+
 void Run(Core::Application* app)
 {
   Networking::Host host;
@@ -11,6 +13,8 @@ void Run(Core::Application* app)
   Networking::Tcp::Socket socket(host);
 
   socket.Send("Hallo!");
+
+  sleep(1);
 
   // TODO - draw menu and wait for input
   UI::Console::Write("Press any key to exit");
